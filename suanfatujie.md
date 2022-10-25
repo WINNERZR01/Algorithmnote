@@ -1,7 +1,3 @@
-
-
-
-
 # 二分查找
 
 > Conditions：
@@ -432,3 +428,543 @@ For example：
 假设要查找avocado的值，只需要将avocado作为输入交给散列函数。![image-20220904204652604](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220904204652604.png)
 
 ![image-20220904204706398](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220904204706398.png)
+
+## 散列表
+
+​	![image-20220905105916576](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905105916576.png)
+
+```python
+book=dict()
+```
+
+​	在字典中添加一些商品的价格
+
+```python
+>>> book["apple"] = 0.67
+>>> book["milk"] = 1.49
+>>> book["avocado"] = 1.49
+>>> print book
+{'avocado': 1.49, 'apple': 0.67, 'milk': 1.49}
+进行查询avocado
+>>> print book["avocado"]
+1.49
+```
+
+​	散列表由键和值组成。在前面的散列表book中，键为商品名，值为商品价格。散列表将键映射到值。
+
+​	创建散列表的方式：
+
+```python
+//方法1
+book=dict()
+//方法2
+book={}
+//添加键值对
+book["jack"]=12345
+book["merry"]=89798
+//查找信息
+print book["merry"]
+```
+
+​	DNS解析≈散列表
+
+## 防止重复
+
+首先创建一个散列表，函数get将它返回，如果存在这个键，将返回对应的值，如果不存在，则返回None。
+
+```python
+>>> voted{}
+>>> value=voted.get("tom")
+```
+
+![image-20220905151747685](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905151747685.png)
+
+投票代码：
+
+```python
+voted = {}
+def check_voter(name):
+	if voted.get(name):
+		print "kick them out!"
+	else:
+		voted[name] = True
+		print "let them vote!"
+        
+//测试
+>>> check_voter("tom")
+let them vote!
+>>> check_voter("mike")
+let them vote!
+>>> check_voter("mike")
+kick them out!
+```
+
+## 将散列表用于缓存
+
+缓存是一种常用的加速方式，举例：
+
+![image-20220905152401698](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905152401698.png)![image-20220905152420773](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905152420773.png)
+
+![image-20220905152619607](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905152619607.png)![image-20220905152635990](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905152635990.png)
+
+## 总结
+
+​	散列表适合
+
+- 模拟映射关系
+- 防止重复
+- 缓存or记忆数据，加速访问
+
+## 冲突
+
+> 给两个键分配的相同的位置
+
+解决方法就i是：
+
+- 在共同的位置上创建一个链表，但是一旦链表所包含的元素越多，将会造成访问速度大大降低。![image-20220905153228523](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905153228523.png)![image-20220905153245474](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905153245474.png)
+
+- 优化散列函数，尽量使得键均匀的映射到散列表的不同位置。
+
+## 性能
+
+散列表执行各种操作时间都是O(1)。O(1)为常量时间，例如从一个数组中获取一个元素时间都是固定的，平均情况下，散列表的速度确实快。![image-20220905153921399](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905153921399.png)
+
+![image-20220905154609277](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905154609277.png)
+
+## 填装因子
+
+​	填装因子=散列表所包含的元素数/位置总数
+
+![image-20220905154910251](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905154910251.png)
+
+填装因子大于0.7，就调整散列表的长度，通常增长一倍。
+
+## 散列函数
+
+良好的散列函数可以让数组中的值呈现均匀分布，与差劲的散列函数形成对比：![image-20220905155452145](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905155452145.png)![image-20220905155433941](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905155433941.png)
+
+> SHA函数可用作散列函数。
+
+# 时间-专业术语
+
+常量时间O(1)![image-20220905154230349](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905154230349.png)
+
+线性时间O(n)![image-20220905154236923](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905154236923.png)
+
+对数时间O(logn)![image-20220905154243016](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905154243016.png)
+
+# 广度优先搜索
+
+> 它是一种图算法，解决最短路径问题的算法称为广度优先算法。
+
+## 图简介
+
+最短路径问题：![image-20220905160035390](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905160035390.png)
+
+第一步所能到达地点圈出
+
+![image-20220905160308236](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905160308236.png)第二步![image-20220905160317673](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905160317673.png)
+
+第三步
+
+![image-20220905160349527](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905160349527.png)
+
+最短路径
+
+![image-20220905160359415](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905160359415.png)
+
+以上例子解决问题的步骤：
+
+1. 使用图来建立问题模型
+2. 使用广度优先搜索解决问题
+
+## 图是什么
+
+​	图模拟了一种连接，图用于模拟不同的东西之间是如何连接的，例如欠钱关系图
+
+![image-20220905160732887](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905160732887.png)
+
+包含：![image-20220905160748753](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905160748753.png)
+
+## 广度优先搜索
+
+​	和二分查找一样都是一种查找算法。可解决两类问题
+
+1. 从A出发，存不存在前往B的路径
+2. 从A出发，到B的路径中，哪一条是最短的
+
+### 查找最短路径
+
+![image-20220905161414568](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905161414568.png)![image-20220905161426771](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905161426771.png)
+
+上图中，一度关系在二度关系之前加入查找名单，必须按顺序进行检查，不然不能保证是最短路径，队列这种数据结构可以实现。
+
+### 队列
+
+​	队列和生活中排队非常类似，排在前面的先“上车”，队列和栈类似，不能随意的访问队列中的元素，队列只支持：入队，出队。![image-20220905162251294](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905162251294.png)
+
+​	队列是一种先进先出的数据结构，而栈是一种后进后出的数据结构![image-20220905165029102](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905165029102.png)
+
+## 实现图
+
+```python
+graph = {}
+graph["you"] = ["alice", "bob", "claire"]
+```
+
+graph["you"]是一个数组，其中包含了“你”的所有邻居。
+
+![image-20220905165330647](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905165330647.png)![image-20220905165338451](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905165338451.png)
+
+```python
+//同理用来表示的python代码如下
+graph = {}
+graph["you"] = ["alice", "bob", "claire"]
+graph["bob"] = ["anuj", "peggy"]
+graph["alice"] = ["peggy"]
+graph["claire"] = ["thom", "jonny"]
+graph["anuj"] = []
+graph["peggy"] = []
+graph["thom"] = []
+graph["jonny"] = []
+```
+
+下面两图等价![image-20220905165540085](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905165540085.png)
+
+## 实现算法
+
+![image-20220905165645930](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905165645930.png)
+
+`python`的队列表示
+
+```python
+from collections import deque
+search_queue = deque()
+search_queue += graph["you"]
+```
+
+`graph["you"]`是一个数组，其中包含你的所有邻居，如["alice", "bob",
+"claire"]。这些邻居都将加入到搜索队列中。
+
+```python
+while search_queue: //只要队列不为空
+	person = search_queue.popleft()//就读取其中第一个人
+	if person_is_seller(person)://检查此人是否为目标对象
+		print person + " is a mango seller!"//成功找到对象
+		return True
+	else:
+		search_queue += graph[person]//如果不是，将其关联对象加入队列
+return False //如果运行至此，说明队列中不存在对象
+```
+
+用于判断是否为目标对象函数
+
+```python
+def person_is_seller(name):
+	return name[-1] == 'm'
+```
+
+![image-20220905170843382](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905170843382.png)![image-20220905170851517](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905170851517.png)
+
+程序停止情况：
+
+- 找到目标对象
+- 队列变为空，在队列中找不到目标对象，Peggy既是Alice的朋友又是Bob的朋友![image-20220905172606434](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905172606434.png)
+
+​	出现两次，不应该重复检查，故在检查完一个人之后，应该将其标记为已检查，且再不检查他，可以新建一个列表来记录已经检查过的人，考虑这一部分之后，最终的代码就是：
+
+```python
+def search(name):
+	search_queue = deque()
+	search_queue += graph[name]
+	searched = []
+	while search_queue:
+		person = search_queue.popleft()
+		if not person in searched:
+			if person_is_seller(person):
+				print person + " is a mango seller!"
+				return True
+			else:
+				search_queue += graph[person]
+				searched.append(person)
+	return False
+search("you")
+```
+
+## 运行时间
+
+​	在整个图中，沿着每一条路线前进，因此运行时间至少为O(边数)，其中图中每一个节点添加到队列中所需要的时间是O(人数)，所以总的广度优先搜索的运行时间就是O(人数＋边数)，通常写作O(V+E)，其中V为顶点数，E为边数。
+
+# 狄克斯特拉算法 
+
+## 使用狄克斯特拉算法
+
+![image-20220905200329517](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905200329517.png)
+
+​	每个数字代表的都是时间，单位分钟。
+
+​	若使用广度优先搜索，将得到下面这条段数最少的路径
+
+![image-20220905200539766](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905200539766.png)
+
+​	若使用狄克斯特拉算法将包含以下四个步骤：
+
+1. 找出“最便宜”的节点，即可在最短时间内到达的节点。
+   1. 从起点开始前往A或B所需的时间，进行对比可知，在假设到达终点所需要的时间为无穷大，可知节点B此时为最近节点![image-20220905201356210](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905201356210.png)
+2. 更新该节点的邻居的开销，其含义就是B前往各个“邻居”所需要的时间
+   1. ![image-20220905201454948](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905201454948.png)
+   2. 在这里找到了前往A的更短的时间，到达终点的时间由无穷大变成7min
+3. 重复上述过程，直到对图中的每个节点都这样做了
+   1. 对A进行相同操作![image-20220905202229677](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905202229677.png)
+   2. 更新A点的所有开销，发现前往终点的时间为6min
+   3. 对每个节点都运行狄克斯特拉算法（终点除外），![image-20220905202645569](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905202645569.png)
+4. 计算最终路径
+
+​	使用广度优先搜索算法时，“最短路径”的意思是所经过的段数最少；
+
+​	而使用狄克斯特拉算法时，每一段路径都拥有了权重，狄克斯特拉算法的目标时找到权重最小的那一条路径。
+
+![image-20220905203037591](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905203037591.png)
+
+## 术语
+
+狄克斯特拉算法每条线路上的数字代表的是“权重”
+
+![image-20220905215409284](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905215409284.png)
+
+带有权重的称为加权图，不带权重的称为非加权图
+
+![image-20220905215537892](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905215537892.png)
+
+非加权图适合用广度优先搜索算法
+
+加权图适合用狄克斯特拉算法，且狄克斯特拉算法只适用于有向无环图
+
+![image-20220905215950725](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905215950725.png)
+
+![image-20220905215957042](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220905215957042.png)
+
+主要步骤示意图：![image-20220906190526323](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906190526323.png)
+
+```python
+node = find_lowest_cost_node(costs)
+//在未处理的节点中找出开销最小的节点
+while node is not None:
+    // 这个while循环在所有节点都被处理过后结束
+	cost = costs[node]
+	neighbors = graph[node]
+	for n in neighbors.keys():
+        // 遍历当前节点的所有邻居
+		new_cost = cost + neighbors[n]
+		if costs[n] > new_cost:
+            //如果经当前节点前往该邻居更近
+			costs[n] = new_cost
+            //就更新该邻居的开销
+			parents[n] = node
+            //同时将该邻居的父节点设置为当前节点
+	processed.append(node)
+    //将当前节点标记为处理过
+	node = find_lowest_cost_node(costs)
+    //找出接下来要处理的节点，并循环
+    
+    
+def find_lowest_cost_node(costs):
+	lowest_cost = float("inf")
+	lowest_cost_node = None
+	for node in costs:
+		cost = costs[node]
+		if cost < lowest_cost and node not in processed:
+			lowest_cost = cost
+			lowest_cost_node = node
+	return lowest_cost_node
+```
+
+​	每个节点都有开销，
+
+![image-20220906191726630](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906191726630.png)
+
+新旧开销进行对比：![image-20220906191741224](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906191741224.png)
+
+![image-20220906192145740](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906192145740.png)
+
+## 小结
+
+- 广度优先算法用于非加权图中查找最短路径
+- 狄克斯特拉算法用于在加权图中查找最短路径
+- 仅当权重为正时，狄克斯特拉算法才管用
+- 如果图中权重包含负权重边，则需要使用贝尔曼-福德算法
+
+# 贪婪算法
+
+## 举例：教室调度问题
+
+![image-20220906200037187](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906200037187.png)
+
+![image-20220906200105238](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906200105238.png)![image-20220906200110283](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906200110283.png)
+
+​	你希望在这件教室尽可能多的安排可以教学的课，如何选出尽可能多的且时间不冲突的课程呢？
+
+​	算法的步骤：
+
+1. 首先选出结束最早的课，它就是要在这间教室要上的第一堂课。
+2. 接下来选出第一堂课后才开始的课，在第一堂课结束之后才开始的课中，选出结束时间最早的课，这就是这件教室要上的第二堂课。
+3. 重复以上步骤就可以找出答案，如下图所示
+
+![image-20220906200522875](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906200522875.png)
+
+![image-20220906200531815](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906200531815.png)
+
+![image-20220906200539029](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906200539029.png)
+
+![image-20220906200555064](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906200555064.png)
+
+> 贪婪算法优点：简单易行！
+>
+> 贪婪算法的贪婪之处体现在，贪婪算法的每一步都是局部最优解，最终得到的就是全局最优解，但也并非所有情况之下都有效。
+
+## 背包问题
+
+​	你只有：![image-20220906200935409](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906200935409.png)
+
+而现在![image-20220906200950296](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906200950296.png)
+
+如果按照贪婪算法来说，选择将最贵的音箱装入袋中，将无法装下其他物品，但是这并不是获利最多的情况。
+
+​	因此可以知道，贪婪算法只能近似的取得接近最优解的结果。
+
+## 集合覆盖问题
+
+举例：
+
+![image-20220906201726027](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906201726027.png)
+
+已知现在需要将广播尽可能的让50个州的民众都可以收听到，但是各个广播台所覆盖的州都不相同，有的甚至有所重叠。
+
+![image-20220906201816363](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906201816363.png)![image-20220906201822657](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906201822657.png)
+
+![image-20220906201833478](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906201833478.png)
+
+1. 列出每个可能的广播台集合，这被称为幂集，可能的子集有2的n次方个
+
+   ![image-20220906202037961](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906202037961.png)
+
+2. 在这些集合中，选出覆盖全美50个州的最小集合。
+
+​	问题在于计算每个可能的广播台子集需要很长时间，由于可能的集合2的n次方个，因此运行时间为O(2的n次方)。如果广播台数量过大将会造成所需时间激增。
+
+## 近似算法
+
+1. 选出一个广播台，它的特征是：覆盖大部分未覆盖州，即便这个广播台覆盖了一些已经覆盖的州，也先不管
+2. 重复第一步，再选择一个覆盖大部分未覆盖州的广播台。
+
+​	这是一种近似算法。在获得精确解需要的时间太长的时候，可使用近似算法。
+
+​	判断近似算法优劣标准
+
+- 算法速度快慢
+- 得到的近似解与最优解的近似程度
+
+### 准备工作
+
+1. 创建一个列表，其中包含“50州”即要覆盖的州，
+
+   ```python
+   states_needed = set(["mt", "wa", "or", "id", "nv", "ut","ca", "az"])
+   ```
+
+   []内的数组将会变为集合，区别与数组的不同是集合中同样的元素只能出现一次，即集合不能包含重复的元素，例如
+
+   ```python
+   >>> arr = [1, 2, 2, 3, 3, 3]
+   >>> set(arr)
+   set([1, 2, 3])
+   ```
+
+   ![image-20220906203855660](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906203855660.png)
+
+​		可供选择的“广播台”清单，我选择使用散列表来表示它。
+
+```python
+stations = {}
+stations["kone"] = set(["id", "nv", "ut"])
+stations["ktwo"] = set(["wa", "id", "mt"])
+stations["kthree"] = set(["or", "nv", "ca"])
+stations["kfour"] = set(["nv", "ut"])
+stations["kfive"] = set(["ca", "az"])
+```
+
+​		用于存储最终选择的广播台。
+
+```python
+final_stations = set()
+```
+
+2. 计算答案
+
+将从中选出的覆盖了最多未覆盖的广播台存储在`best_station`，
+
+```python
+best_station = None
+states_covered = set()
+for station, states_for_station in stations.items():
+```
+
+`states_covered` 是一个集合，包含该广播台覆盖的所有未覆盖的州。`for`循环迭代每个广播台，并确定它是否是最佳的广播台。
+
+```python
+covered = states_needed & states_for_station//计算两个集合的交集
+if len(covered) > len(states_covered):
+	best_station = station
+	states_covered = covered
+```
+
+## 集合
+
+​	水果集合
+
+![image-20220906205929587](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906205929587.png)
+
+​	蔬菜集合
+
+![image-20220906205941996](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906205941996.png)
+
+![image-20220906210001871](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906210001871.png)![image-20220906210007774](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906210007774.png)
+
+![image-20220906210016855](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906210016855.png)
+
+- 差集意味着将从一个集合中剔除出现在另一个集合中的元素
+- 集合类似列表，但是不能包含重复的元素，可以进行并集、交集、差集运算。
+
+​	states_covered就是最优解，需要不断优化。
+
+​	不断地循环，直到states_needed为空，完整代码：
+
+```python
+while states_needed:
+	best_station = None
+	states_covered = set()
+	for station, states in stations.items():
+		covered = states_needed & states
+		if len(covered) > len(states_covered):
+			best_station = station
+			states_covered = covered
+            
+states_needed -= states_covered
+final_stations.add(best_station)
+```
+
+```python
+>>> print final_stations
+set(['ktwo', 'kthree', 'kone', 'kfive'])
+```
+
+## NP完全问题
+
+![image-20220906212956218](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906212956218.png)
+
+![image-20220906214140851](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906214140851.png)
+
+![image-20220906214233900](https://cdn.jsdelivr.net/gh/WINNERZR01/ImageHosting/writeimg/image-20220906214233900.png)
+
+# 动态规划
+
